@@ -6,10 +6,8 @@ export const isLoggedIn = async(req, res, next)=>{
         return res.status(401).json({success: false, message:"Invalid token or No token provided"})
     }
 
-    // Extract the token 
-    const token = authHeader.split(" ")[1]; // split helps split the token from where there is space.. it then returns the token in array format.. this [1] select the token
-
-    // verify the token
+    const token = authHeader.split(" ")[1]; 
+    
     if(token){
         jwt.verify(token, process.env.JWT_SECRET, (err, decoded) =>{
             if(err){

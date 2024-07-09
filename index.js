@@ -20,7 +20,6 @@ app.get('/', (req, res) =>{
 })
 
 app.use("/api/v1/auth", userRoute);
-// app.use("/api/v1/todo", todoRouter);
 app.listen(port, (req, res) =>{
     console.log(`Fragrance Hub Server listening on ${port}`);
 });

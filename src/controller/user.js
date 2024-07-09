@@ -44,20 +44,17 @@ export const updateUser = async (req, res) => {
         user.email = email;
       }
   
-      // Update the user details
       user.firstName = firstName || user.firstName;
       user.lastName = lastName || user.lastName;
       user.username = username || user.username;
   
-      // Update and hash password if provided
+      
       if (password) {
         user.password = await hashPassword(password);
       }
   
-      // Save updated user data
       await user.save();
-  
-      // Generate a new token if email or password is updated
+
       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
         expiresIn: '1d',
       });
@@ -82,7 +79,6 @@ export const updateUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
     try {
         const {userId} = req.params;
-        // Find product by ID and delete
         const user = await User.findById({_id: userId});
         if (!user) {
           return res.status(404).json({success: false, message: 'User not found' });

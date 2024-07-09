@@ -16,5 +16,8 @@ This is a simple User API built with Node.js, Express, and MongoDB. It allows yo
    cd user-api
 
 2. Install dependencies:
-
-    npm install
+  ```
+      bash
+      npm install
+      ```
+    

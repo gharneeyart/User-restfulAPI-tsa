@@ -26,7 +26,7 @@ export const SignUp = async (req, res) => {
         }
    
 
-        // check if email is taken
+        
         const existingUser = await User.findOne({email});
         if(existingUser) {
             return res.status(400).json({success:false, message: "Email is taken"});
@@ -76,7 +76,7 @@ export const login = async (req, res) => {
             return res.status(400).json({success:false, message: "Incorrect password"});
         }
 
-        // create a token
+        
         const token = jwt.sign({_id: user._id}, process.env.JWT_SECRET, {
             expiresIn: 86400
         });
