@@ -1,10 +1,10 @@
 # User API
 
-This is a simple User API built with Node.js, Express, and MongoDB. It allows you to perform CRUD operations on users.
+This is a simple User API built with Node.js, Express, and MongoDB. It allows you to perform Create, Read, Update, and Delete operations on users. It also handles authenticate and validate user's details.
 
 ## Prerequisites
 
-- Node.js installed on your machine
+- Node.js installed and running
 - MongoDB installed and running locally
 
 ## Setup
@@ -24,9 +24,9 @@ npm install
 ### 3. Create a .env file with the following environment variables:
 
 ```bash
-PORT= 8000
+PORT= 8080
 MONGODB_CONNECTION_URL=your_mongodb_connection_url
-JWT_SECRET = yoursecret
+JWT_SECRET = your_jwt_secret
 ```
 ### 4. Start the server 
 ```bash
@@ -34,7 +34,7 @@ npm start
 ```
 ## End Points
 
-### 1. Create a new user
+### 1. Sign up as a new user
 - URL: `/api/v1/auth/signup`
 - Method: `POST`
 - Request Body:
@@ -64,7 +64,36 @@ npm start
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjhjZTA4ZGQ5YWNiNGRlZDIzOWNjN2IiLCJpYXQiOjE3MjA1MDg1NTcsImV4cCI6MTcyMDU5NDk1N30.dA7WPdo5T7dXKAUnW5tWa37JOCaY64Lln0QtbtUAG9E"
 }
 ```
-
+### Login User
+- URL: `/api/v1/auth/login`
+- Method: `GET`
+- Request Body:
+```bash
+{
+    "email": "ganiyat20@gmail.com",
+    "password": "Ganiyat20@"
+}
+```
+  
+- Response:
+```bash
+{
+    "success": true,
+    "message": "Login Successful",
+    "user": {
+        "_id": "668cddd9a04f81e4103d3a66",
+        "firstName": "Ganiyat",
+        "lastName": "Shuaib",
+        "username": "Ganiyat20",
+        "email": "ganiyat20@gmail.com",
+        "password": "$2b$12$GS1.mkjlYhhSwmGL26ke3OUnkbJ9nhE6NZRarjllhiRz2wv4DcUj.",
+        "createdAt": "2024-07-09T06:51:05.334Z",
+        "updatedAt": "2024-07-09T06:51:05.334Z",
+        "__v": 0
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjhjZGRkOWEwNGY4MWU0MTAzZDNhNjYiLCJpYXQiOjE3MjA1MDgzMTgsImV4cCI6MTcyMDU5NDcxOH0.C8cnJ9NqN8FbDyNKJ6Hiowc4byRnWGiyWCnln1DoYS8"
+}
+```
 ### 2. Get all users
 - URL: `/api/v1/auth/users`
 - Method: `GET`
@@ -130,18 +159,19 @@ npm start
 ### 4. Update a user by ID
 - URL: `/api/auth/user/update`
 - Method: `PUT`
-- Only a loggedIn user can update
+- Note: Only a loggedIn user can update
 - Request Body:
   ```bash
-  {
+   {
     "firstName": "Ganiyatu",
     "lastName": "Shuaib",
     "username": "Ganiyatu20",
     "email": "ganiyatu20@gmail.com",
     "password": "$2b$12$GS1.mkjlYhhSwmGL26ke3OUnkbJ9nhE6NZRarjllhiRz2wv4DcUj.",
     "_id": "668cddd9a04f81e4103d3a66"
-}
-```
+   }
+  ```
+
 - Response:
 ```bash
 {
@@ -157,22 +187,22 @@ npm start
 }
 ```
 ### 5. Delete a user by ID
-URL: `/api/auth/user/:id`
-Method: `DELETE`
+- URL: `/api/auth/user/:userId`
+- Method: `DELETE`
 - Response:
+  
   ```bash
-  {
+   {
     "success": true,
     "message": "User deleted successfully",
     "deletedUser": {
         "acknowledged": true,
         "deletedCount": 1
     }}
-```
+  ```
 # Database Configuration
 
-
-``sh
+```bash
 import mongoose from 'mongoose'
 //It will connect to the url 
 export const connectDb = (url) => {
