@@ -7,7 +7,7 @@ dotenv.config()
 
 export const SignUp = async (req, res) => {
     try {
-        const {firstName, lastName, username, email, password } = req.body;
+        const {firstName, lastName, email, password } = req.body;
        
         if(!firstName) {
             return res.status(400).json({success:false, message: "FirstName is required"});
@@ -15,9 +15,9 @@ export const SignUp = async (req, res) => {
         if(!lastName) {
             return res.status(400).json({success:false, message: "LastName is required"});
         }
-        if(!username) {
-            return res.status(400).json({success:false, message: "UserName is required"});
-        }
+        // if(!username) {
+        //     return res.status(400).json({success:false, message: "UserName is required"});
+        // }
         if(!email) {
             return res.status(400).json({success:false, message: "Email is required"});
         }
@@ -37,7 +37,7 @@ export const SignUp = async (req, res) => {
         const newUser = new User({
             firstName,
             lastName,
-            username,
+            // username,
             email,
             password: hashed,
             });
