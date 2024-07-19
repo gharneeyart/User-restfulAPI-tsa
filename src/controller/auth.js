@@ -8,31 +8,25 @@ dotenv.config()
 
 export const SignUp = async (req, res) => {
     try {
-        const {firstName, lastName, email, password } = req.body;
-        const image = req.file
+        const { firstName, lastName, email, password } = req.body;
+        const image = req.file;
 
-       
-        if(!firstName) {
-            return res.status(400).json({success:false, message: "FirstName is required"});
+        if (!firstName) {
+            return res.status(400).json({ success: false, message: "FirstName is required" });
         }
-        if(!lastName) {
-            return res.status(400).json({success:false, message: "LastName is required"});
+        if (!lastName) {
+            return res.status(400).json({ success: false, message: "LastName is required" });
         }
-        // if(!username) {
-        //     return res.status(400).json({success:false, message: "UserName is required"});
-        // }
-        if(!email) {
-            return res.status(400).json({success:false, message: "Email is required"});
+        if (!email) {
+            return res.status(400).json({ success: false, message: "Email is required" });
         }
-        if(!password) {
-            return res.status(400).json({success:false, message: "Password is required"});
+        if (!password) {
+            return res.status(400).json({ success: false, message: "Password is required" });
         }
-   
 
-        
-        const existingUser = await User.findOne({email});
-        if(existingUser) {
-            return res.status(400).json({success:false, message: "Email is taken"});
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ success: false, message: "Email is taken" });
         }
 
         const hashed = await hashPassword(password);
@@ -40,31 +34,34 @@ export const SignUp = async (req, res) => {
         const newUser = new User({
             firstName,
             lastName,
-            // username,
             email,
             password: hashed,
-            });
-            if(image){
-                try {
-                 const imagePath = await cloudinary.uploader.upload(image.path);
-                 newUser.image = imagePath.secure_url;
-                 newUser.imagePublicId = imagePath.public_id;
-                } catch (err) {
-                 console.log(err);
-                 return res.json({success: false, message: "Error uploading image", err})
-                }
-             }
+        });
+
+        if (image) {
+            try {
+                const imagePath = await cloudinary.uploader.upload(image.path);
+                newUser.image = imagePath.secure_url;
+                newUser.imagePublicId = imagePath.public_id;
+            } catch (err) {
+                console.log(err);
+                return res.status(500).json({ success: false, message: "Error uploading image", error: err.message });
+            }
+        }
+
         await newUser.save();
 
-        const token = jwt.sign({_id: newUser._id}, process.env.JWT_SECRET, {
-            expiresIn: 86400
+        const token = jwt.sign({ _id: newUser._id }, process.env.JWT_SECRET, {
+            expiresIn: 86400,
         });
-        return res.json({success: true, newUser, token});
+
+        return res.json({ success: true, newUser, token });
     } catch (err) {
-        console.log(err);
-        res.status(500).json({error: err.message});
+        console.error("Signup Error:", err.message);
+        res.status(500).json({ success: false, message: err.message });
     }
-}
+};
+
 
 export const login = async (req, res) => {
     try {
