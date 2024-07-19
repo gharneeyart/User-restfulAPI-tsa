@@ -24,7 +24,7 @@ export const SignUp = async (req, res) => {
             return res.status(400).json({ success: false, message: "Password is required" });
         }
 
-        const existingUser = await User.findOne({ email });
+        const existingUser = await User.findOne( email );
         if (existingUser) {
             return res.status(400).json({ success: false, message: "Email is taken" });
         }
