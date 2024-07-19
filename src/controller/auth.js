@@ -2,12 +2,15 @@ import User from '../model/user.js';
 import { hashPassword, comparePassword } from '../helpers/auth.js';
 import  jwt  from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { cloudinary } from '../helpers/cloudinary.config.js';
 dotenv.config()
 
 
 export const SignUp = async (req, res) => {
     try {
         const {firstName, lastName, email, password } = req.body;
+        const image = req.file
+
        
         if(!firstName) {
             return res.status(400).json({success:false, message: "FirstName is required"});
@@ -41,7 +44,16 @@ export const SignUp = async (req, res) => {
             email,
             password: hashed,
             });
-    
+            if(image){
+                try {
+                 const imagePath = await cloudinary.uploader.upload(image.path);
+                 newUser.image = imagePath.secure_url;
+                 newUser.imagePublicId = imagePath.public_id;
+                } catch (err) {
+                 console.log(err);
+                 return res.json({success: false, message: "Error uploading image", err})
+                }
+             }
         await newUser.save();
 
         const token = jwt.sign({_id: newUser._id}, process.env.JWT_SECRET, {

@@ -25,6 +25,12 @@ const userSchema = new Schema(
             type: String,
             required: true,
           },
+          image:{
+            type: String
+        },
+        imagePublicId:{
+            type: String
+        },
           createdAt: {
             type: Date,
             default: Date.now,
