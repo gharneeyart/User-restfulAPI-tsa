@@ -6,7 +6,7 @@ import { isLoggedIn } from '../middlewares/auth.js';
 const router = express.Router()
 
 router.post('/signup', SignUp)
-router.get('/login', login)
+router.post('/login', login)
 router.get('/users', getAllUsers)
 router.get('/user/:userId', getUserByID)
 router.put('/user/update', isLoggedIn, updateUser)

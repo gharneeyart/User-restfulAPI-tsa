@@ -1,17 +1,13 @@
 import mongoose from 'mongoose';
 
 export const connectDb = (url) => {
-    mongoose.connect(url, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,  // Useful for schema indexing in MongoDB
-        useFindAndModify: false  // To prevent deprecation warnings for findAndModify()
+  mongoose
+    .connect(url, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 30000, // Increase server selection timeout to 30 seconds
+      socketTimeoutMS: 45000, // Set socket timeout to 45 seconds
     })
-    .then(() => {
-        console.log("DB connected successfully");
-    })
-    .catch((err) => {
-        console.error("Error connecting to MongoDB:", err.message);
-        process.exit(1);  // Exit the process with a failure code
-    });
+    .then(() => console.log('Connected to MongoDB'))
+    .catch((err) => console.log('Error connecting to MongoDB', err.message));
 };
