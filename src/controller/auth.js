@@ -120,7 +120,7 @@ export const forgotPassword = async (req, res) => {
 
         // send reset token to user's email address
         const domain = "http://localhost:8080"
-        const resetLink = `${domain}/reset/${resetToken}`
+        const resetLink = `${domain}/forgotpassword/${resetToken}`
 
         await sendResetEmail(email, resetLink);
 
