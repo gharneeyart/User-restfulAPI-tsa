@@ -13,12 +13,12 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-let corsOptions = { 
-    origin : ['http://localhost:5173', 'http://localhost:5174', 'https://beta-housegharneeyart-shuaib-ganiyats-projects.vercel.app'], 
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
-    credentials: true // Allow cookies and credentials
-} 
-app.use(cors(corsOptions));
+// let corsOptions = { 
+//     origin : ['http://localhost:5173', 'http://localhost:5174', 'https://beta-housegharneeyart-shuaib-ganiyats-projects.vercel.app'], 
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+//     credentials: true // Allow cookies and credentials
+// } 
+app.use(cors());
 
 app.use(session({
     secret: 'your_secret_key',
