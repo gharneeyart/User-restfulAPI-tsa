@@ -1,13 +1,7 @@
-import mongoose from 'mongoose';
-
+import mongoose from 'mongoose'
+//It will connect to the url 
 export const connectDb = (url) => {
-  mongoose
-    .connect(url, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 30000, // Increase server selection timeout to 30 seconds
-      socketTimeoutMS: 45000, // Set socket timeout to 45 seconds
-    })
-    .then(() => console.log('Connected to MongoDB'))
-    .catch((err) => console.log('Error connecting to MongoDB', err.message));
+    // connecting to mongoose
+    mongoose.connect(url).then(()=> console.log("DB connected successfully")).catch((err)=>console.log("Error connecting to MongoDB",err.message));
 };
+

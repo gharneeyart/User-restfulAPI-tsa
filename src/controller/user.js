@@ -1,6 +1,7 @@
 import User from '../model/user.js'
 import { hashPassword } from '../helpers/auth.js';
 import jwt from 'jsonwebtoken';
+import { cloudinary } from "../helpers/cloudinary.config.js";
 
 export const getAllUsers = async (req, res) => {
     try {
@@ -29,6 +30,7 @@ export const updateUser = async (req, res) => {
     try {
       const { _id } = req.user; 
       const { firstName, lastName, username, email, password } = req.body; 
+      const imageFile = req.file; 
       console.log(_id);
   
       const user = await User.findById(_id);
@@ -43,10 +45,21 @@ export const updateUser = async (req, res) => {
         }
         user.email = email;
       }
-  
+      
       user.firstName = firstName || user.firstName;
       user.lastName = lastName || user.lastName;
       user.username = username || user.username;
+
+      if (imageFile) {
+        // Delete image from cloudinary
+        if (user.image && user.imagePublicId) {
+          await cloudinary.uploader.destroy(user.imagePublicId);
+        }
+        // upload new image to cloudinary
+        const imageResult = await cloudinary.uploader.upload(imageFile.path);
+        user.image = imageResult.secure_url;
+        user.imagePublicId = imageResult.public_id;
+      }
   
       
       if (password) {
