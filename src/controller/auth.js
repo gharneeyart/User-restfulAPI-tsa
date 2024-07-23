@@ -153,7 +153,6 @@ export const resetPassword = async(req, res) => {
       // verify the token
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
   
-      // console.log(decodedToken);
   
       if(!decodedToken){
         return res.status(403).json({success: false, message: "Invalid/expired token provided"})
