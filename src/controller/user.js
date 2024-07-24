@@ -29,7 +29,7 @@ export const getUserByID = async (req, res) => {
 export const updateUser = async (req, res) => {
     try {
       const { _id } = req.user; 
-      const { firstName, lastName, username, email, password } = req.body; 
+      const { firstName, lastName, email, password } = req.body; 
       const imageFile = req.file; 
       console.log(_id);
   
@@ -48,7 +48,7 @@ export const updateUser = async (req, res) => {
       
       user.firstName = firstName || user.firstName;
       user.lastName = lastName || user.lastName;
-      user.username = username || user.username;
+      
 
       if (imageFile) {
         // Delete image from cloudinary
@@ -78,8 +78,8 @@ export const updateUser = async (req, res) => {
         user: {
           firstName: user.firstName,
           lastName: user.lastName,
-          username: user.username,
           email: user.email,
+          image: user.image,
           token,
         },
       });
