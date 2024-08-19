@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 });
 
 export const sendResetEmail = (email, resetLink) => {
-  const emailContent = PASSWORD_RESET_REQUEST_TEMPLATE.replace("{reserURL}", resetLink)
+  const emailContent = PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}", resetLink)
   const mailOptions = {
     from: process.env.EMAIL_USER,
     to: email,
